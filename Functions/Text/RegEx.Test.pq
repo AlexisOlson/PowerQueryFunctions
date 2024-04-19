@@ -51,8 +51,8 @@ let
                         var matches = str.match(regex);
                         document.write(matches);
                     </script>",
-                Matches = Web.Page(Script){0}[Data]{0}[Children]{1}[Children][Text],
-                Result = not List.IsEmpty(Matches)
+                Match = Web.Page(Script){0}[Data]{0}[Children]{1}[Children][Text]{0},
+                Result = Match <> "null"
             in  
                 Result
 in
