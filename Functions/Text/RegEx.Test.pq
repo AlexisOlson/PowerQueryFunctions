@@ -43,16 +43,18 @@ let
         (txt as text, pattern as text, optional flags as text) as logical =>
             let
                 EscapedText = Text.Replace(txt, "\", "\\"),
+                EscapedPattern = Text.Replace(pattern, "\", "\\"),
                 Flags = flags ?? "",
                 Script = 
                     "<script>
                         var str = '" & EscapedText & "';
-                        var regex = new RegExp('" & pattern & "', '" & Flags & "');
+                        var regex = new RegExp('" & EscapedPattern & "', '" & Flags & "');
                         var matches = str.match(regex);
                         document.write(matches);
                     </script>",
-                Match = Web.Page(Script){0}[Data]{0}[Children]{1}[Children][Text]{0},
-                Result = Match <> "null"
+                Result =
+                    try (Web.Page(Script){0}[Data]{0}[Children]{1}[Children][Text]{0} <> "null")
+                    otherwise error Error.Record("Bad RegEx", "invalid regular expression")
             in  
                 Result
 in
