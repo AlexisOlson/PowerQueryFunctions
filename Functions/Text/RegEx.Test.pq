@@ -2,40 +2,36 @@ let
     // Define metadata for the function, describing its purpose and usage.
     metaDocumentation = type function (
             txt as (type text meta [
-            Documentation.FieldCaption = " TODO "
+            Documentation.FieldCaption = " Text to test "
         ]),
             pattern as (type text meta [
-            Documentation.FieldCaption = " TODO "
+            Documentation.FieldCaption = " RegEx pattern to use "
         ]),
             optional flags as (type text meta [
-            Documentation.FieldCaption = " TODO "
+            Documentation.FieldCaption = " Flags to use. Default is global ""g"". "
         ])
     ) as logical meta [
-        Documentation.Name = "Text.ContainsAll",
+        Documentation.Name = "RegExTest",
         Documentation.Author = "Alexis Olson",
         Documentation.LongDescription = 
             // This is the description of the documentation, it only accepts a handful of HTML tags for formatting.
             "
-                TODO
-                <p> TODO </p>
+                Searches for a match of a regular expression pattern within the given text.
+                Returns TRUE if there is a match and FALSE otherwise.
+                <p> Note: This function is a hack that uses JavaScript inside the Web.Page function. </p>
                 <li><b>Author: </b>Alexis Olson</li>
                 <li><b>LinkedIn: </b>https://www.linkedin.com/in/alexis-olson-81726818/</li>
             ",
         Documentation.Examples = {
             [
-                Description = " TODO ", 
-                Code = " TODO ", 
-                Result = " TODO "
+                Description = " Check if input text is a valid IP address. ", 
+                Code = " RegExTest(""192.168.0.1"", ""^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$"") ", 
+                Result = " TRUE "
             ],
             [
-                Description = " TODO ", 
-                Code = " TODO ", 
-                Result = " TODO "
-            ],
-            [
-                Description = " TODO ", 
-                Code = " TODO ", 
-                Result = " TODO "
+                Description = " Check if file extension is a common image type (uses case-insensitive ""i"" flag). ", 
+                Code = " RegExTest(""Image001.JPG"", ""^.+\.(jpe?g|gif|png|svg)$"", ""i"") ", 
+                Result = " TRUE "
             ]
       }
     ],
@@ -44,7 +40,7 @@ let
             let
                 EscapedText = Text.Replace(txt, "\", "\\"),
                 EscapedPattern = Text.Replace(pattern, "\", "\\"),
-                Flags = flags ?? "",
+                Flags = flags ?? "g",
                 Script = 
                     "<script>
                         var str = '" & EscapedText & "';
